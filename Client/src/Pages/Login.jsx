@@ -4,12 +4,12 @@ import { Link, NavLink } from "react-router-dom";
 const Login = () => {
   return (
     <>
-      {/* Left side component  */}
       <div className="w-screen h-screen flex ">
+      {/* Left side component  */}
         <div className="w-[50%] bg-white text-black flex items-center justify-center">
           <div
             className=" h-[55%] bg-gray-100 rounded-2xl text-black px-4 py-4 text-center"
-            style={{ boxShadow: "10px 10px 10px 0 #549cff" }}
+            style={{ boxShadow: "-10px 10px 10px 0 #549cff" }}
           >
             <h1 className="text-2xl font-bold mt-3 ">
               Login to Resume Builder
@@ -22,6 +22,7 @@ const Login = () => {
                 placeholder="Enter your Email"
                 className="w-full mt-4 h-10 border-b outline-[#5ba1ff] border-[#5ba1ff] p-2"
               />
+              
               <input
                 type="password"
                 name="password"
