@@ -1,38 +1,62 @@
-import React, { useEffect }  from "react";
+import React, { useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useState } from "react";
 import addIcon from "../assets/add.png";
-
+import professional from "../assets/professionalism.png";
+import oneClick from "../assets/tap.png";
 const Landing = () => {
   const [cart, setCart] = useState([]);
-  const data = [{
-    name: "AI Suggestions",
-    content:
-      "Get intelligent content recommendations and phrasing improvements to make your resume stand out.",
-    Image: addIcon,
-  },
-  {
-    name: "AI Suggestions",
-    content:
-      "Get intelligent content recommendations and phrasing improvements to make your resume stand out.",
-    Image: "",
-  },
-  {
-    name: "AI Suggestions",
-    content:
-      "Get intelligent content recommendations and phrasing improvements to make your resume stand out.",
-    Image: "",
-  }];
-  useEffect(()=>{
-    setTimeout(()=>{
+  const [userData, setUserData] = useState([]);
+  const data = [
+    {
+      name: "AI Suggestions",
+      content:
+        "Get intelligent content recommendations and phrasing improvements to make your resume stand out.",
+      Image: addIcon,
+    },
+    {
+      name: "Professional Templates",
+      content:
+        "Choose from a variety of professional templates to create your resume.",
+      Image: professional,
+    },
+    {
+      name: "One Click Export",
+      content: " Your resume to PDF with just one click.",
+      Image: oneClick,
+    },
+  ];
+
+  const datainside = [
+    {
+      name: "John Doe",
+      content:
+        "This resume builder is a game-changer! The AI suggestions helped me craft a much stronger resume than I ever could on my own. Highly recommend!",
+      Image:
+        "https://img.freepik.com/free-photo/young-bearded-man-with-striped-shirt_273609-5677.jpg?semt=ais_hybrid&w=740",
+        specification: "Software Engineer",   
+    },
+    {
+      name: "Devanshu",
+      content:
+        '" landed my dream job thanks to the professional resume I built here. The live preview and easy export made the whole process so smooth."',
+      Image:
+        "https://people.com/thmb/gzHtG_UnZBsUuHVJx9xjB5yAfIQ=/4000x0/filters:no_upscale():max_bytes(150000):strip_icc():focal(399x0:401x2)/people-headshot-nick-maslow-f21ef38676504bc89a091ec9a5c95e4b.jpg",
+        specification: "Labour",   
+    },
+  ];
+
+  useEffect(() => {
+    setTimeout(() => {
       setCart(data);
-    },1000)
-  },[])
+      setUserData(datainside);
+    }, 1000);
+  }, []);
 
   return (
     <>
       {/* header section the top */}
-      <header className="w-screen h-16 flex justify-between items-center px-4">
+      <header className="w-full h-16 flex justify-between items-center px-4">
         <h1 className="text-2xl font-bold text-[#25a4ff]">Resume AI</h1>
         <div className="flex gap-4">
           <NavLink
@@ -81,22 +105,66 @@ const Landing = () => {
       </div>
       {/* middle div */}
 
-      <div className="w-full h-auto bg-[#f1f1f1] text-center  mt-5 ">
+      <div className="w-full h-auto bg-[#f1f1f1] text-center  mt-5 py-6">
         <h1 className="text-5xl font-bold ">
           Unlock Your Potential with Powerful Features
         </h1>
-        <div className="flex justify-center items-center gap-20 mt-10">
-            {cart.map((data , index)=>{
-                return(
-                    <div key={index} className="bg-white rounded-2xl items-center justify-center w-[300px] ">
-                        <img src={data.Image} alt="" className="w-20 h-20 text-blue-500" />
-                        <h1>{data.name}</h1>
-                        <h2>{data.content}</h2>
-                    </div>
-                )
-            })}
+        <div className="flex justify-center items-center gap-10 mt-10 px-10">
+          {cart.map((data, index) => {
+            return (
+              <div
+                key={index}
+                className="bg-white rounded-2xl items-center justify-center p-10 w-[300px] h-[300px]"
+              >
+                <div className="flex items-center justify-center">
+                  <img
+                    src={data.Image}
+                    alt=""
+                    className="w-20 h-20 text-blue-500"
+                  />
+                </div>
+                <div></div>
+                <h1>{data.name}</h1>
+
+                <h2 className="text-gray-400 text-sm mt-2 tracking-tight">
+                  {data.content}
+                </h2>
+              </div>
+            );
+          })}
         </div>
       </div>
+
+      <div className="w-full h-auto mt-5 pt-5 text-center py-10">
+        <h1 className="text-5xl font-bold ">What Our Users Say</h1>
+        <div className="flex justify-center items-center gap-10 mt-10 px-10">
+          {userData.map((data, index) => {
+            return (
+              <div
+                key={index}
+                className="bg-[#f1f1f1] rounded-2xl items-center justify-center p-10"
+              >
+                <h2 className="text-gray-400 text-sm mt-2 tracking-tight">
+                  {data.content}
+                </h2>
+                <div className="flex m-2 gap-6">
+                  <img
+                    src={data.Image}
+                    alt=""
+                    className="w-20 h-20 object-cover text-blue-500 rounded-full"
+                  />
+                        <p>{data.name} <br />
+                        <span>{data.specification}</span></p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      {/* footer section at the bottom */}
+      <footer className="w-full h-auto bg-[#f1f1f1] text-center py-10">
+        2025 Resume AI . All rights are reserved
+      </footer>
     </>
   );
 };

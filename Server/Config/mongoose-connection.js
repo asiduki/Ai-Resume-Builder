@@ -1,0 +1,12 @@
+const {default:mongoose} = require("mongoose");
+const dbgr = require("debug")("development:mongoose");
+const config = require("config");
+
+mongoose.connect(`${config.get("URL")}`).then(()=>{
+    dbgr("connected");
+})
+.catch((err)=>{
+    dbgr(err);
+})
+
+module.exports = mongoose.connection;

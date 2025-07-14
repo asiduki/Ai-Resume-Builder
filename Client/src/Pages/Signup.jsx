@@ -1,7 +1,30 @@
-import React from "react";
-import { Link } from "react-router-dom";
-
+import React, { useState } from "react";
+import { Link ,useNavigate} from "react-router-dom";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 const Signup = () => {
+  const navigate = useNavigate();
+  const { register, handleSubmit } = useForm();
+  const [store, setStore] = useState({});
+  const [message, setMessage] = useState("");
+  const onSubmit = async(data)=>{
+    setStore(data);
+    try{
+      const res = await axios.post("http://localhost:5000/api/signup", {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+    });
+      setMessage(res.data.message);
+      setTimeout(() => {
+      navigate("/Login");
+    }, 1000);
+    }catch (error) {
+      setMessage("Error: " + error.response?.data?.error || error.message);
+    }
+  }
+  
+ 
   return (
     <>
       <div className="w-screen h-screen flex">
@@ -27,15 +50,20 @@ const Signup = () => {
             <h1 className="text-2xl font-bold mt-3">
               Signup to Resume Builder
             </h1>
-            <form className="mt-4">
+            <form
+              className="mt-4"
+              onSubmit={handleSubmit((onSubmit))}
+            >
               <input
                 type="email"
+                {...register("email")}
                 name="email"
                 placeholder="Enter your Email"
                 className="w-full mt-4 h-10 border-b outline-[#5ba1ff] border-[#5ba1ff] p-2  placeholder:text-black"
               />
               <input
                 type="text"
+                {...register("name")}
                 name="name"
                 id="name"
                 placeholder="Enter your Name"
@@ -43,21 +71,26 @@ const Signup = () => {
               />
               <input
                 type="password"
+                {...register("password")}
                 name="password"
+                id="password"
                 placeholder="Enter your Password"
                 className="w-full mt-4 h-10 border-b outline-[#5ba1ff] border-[#5ba1ff] p-2  placeholder:text-black"
               />
               <input
                 type="password"
-                name="password"
+                {...register("confirmpassword")}
+                name="confirmpassword"
+                id="confirmpassword"
                 placeholder="Confirm Password"
                 className="w-full mt-4 h-10 border-b outline-[#5ba1ff] border-[#5ba1ff] p-2  placeholder:text-black"
               />
+              <input
+                type="submit"
+                value={"Signup"}
+                className="bg-blue-500 text-white px-4 py-2 rounded-md w-full hover:bg-blue-600 cursor-pointer mt-4"
+              />
             </form>
-
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-md w-full hover:bg-blue-600 cursor-pointer mt-4">
-              Signup
-            </button>
 
             <span className="text-sm text-center block mt-4">
               Already have an account?{" "}

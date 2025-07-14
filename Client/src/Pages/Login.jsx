@@ -1,7 +1,10 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import { Link, NavLink } from "react-router-dom";
 
 const Login = () => {
+  const {register , handelsubmit} = useForm();
+  
   return (
     <>
       <div className="w-screen h-screen flex ">
