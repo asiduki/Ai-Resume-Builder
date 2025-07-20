@@ -5,10 +5,9 @@ import axios from "axios";
 const Signup = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
-  const [store, setStore] = useState({});
   const [message, setMessage] = useState("");
   const onSubmit = async(data)=>{
-    setStore(data);
+    
     try{
       const res = await axios.post("http://localhost:5000/api/signup", {
       name: data.name,

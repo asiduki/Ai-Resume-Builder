@@ -1,14 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const userSchema = require("../Models/usermodel");
+const LoginController = require("../Controller/LoginController");
+const bcrypt = require("bcrypt")
 
-router.get("/" , async(req , res )=>{
-    try{
-        const {email} = req.body ;
-        const userdetails = await userSchema.findone({email:email});
-        
-    }
-    catch(err){
-        console.log(err);
-    }
-})
+router.post("/", LoginController.Login);
+
+module.exports = router;
