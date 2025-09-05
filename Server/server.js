@@ -6,7 +6,7 @@ const LoginRouter = require("./Routing/LoginRouter");
 const db = require("./config/mongoose-connection");
 const cors = require("cors");
 const bcrypt = require("bcrypt")
-const Personalinfo = require("./Models/Personal")
+const Personalinfo = require("./Models/Data")
 const aiRoutes = require('./Routing/ai.routes');
 require('dotenv').config();
 

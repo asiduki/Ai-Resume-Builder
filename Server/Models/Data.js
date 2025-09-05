@@ -1,8 +1,8 @@
 const mongoose = require("mongoose")
 
 const Personalinfo = mongoose.Schema({
-    data: {
-        String
+    Personal: {
+        type : String
     }
 })
 module.exports = mongoose.model("Info" , Personalinfo)
