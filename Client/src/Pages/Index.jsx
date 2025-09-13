@@ -1,111 +1,126 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Navbar from "../Components/Navbar";
 import { motion } from "motion/react";
 import Sidebar from "../Components/Sidebar";
 import Livepreview from "../Components/Livepreview";
-import { NavLink } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import axios from "axios";
 import { userContextdata } from "../Context/Usercontext";
 
 const Index = () => {
-  const { register, handleSubmit } = useForm();
+  const { personalInfo, setPersonalInfo } = useContext(userContextdata);
+
+  // Local state to manage form inputs temporarily before updating context
+  const [formData, setFormData] = useState({
+    name: personalInfo.name || "",
+    role: personalInfo.role || "",
+    address: personalInfo.address || "",
+    email: personalInfo.email || "",
+    portfolio: personalInfo.portfolio || "",
+    summary: personalInfo.summary || "",
+  });
+
+  const handleChange = (field, value) => {
+    setFormData({
+      ...formData,
+      [field]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setPersonalInfo(formData);
+  };
+
   return (
     <div>
       <Navbar />
       <hr className="mt-2 text-[#f6f6f6]" />
-      <div className="flex gap-5 w-full mt-9 justify-between h-full ">
+      <div className="flex gap-5 w-full mt-9 justify-between h-full">
         <Sidebar />
-        <div className="w-[40%] bg-[#f1f1f1]  px-4 py-6 rounded-lg">
-          <h1 className="text-2xl font-bold">Personal Information</h1>
-          <div className="w-full h-[80vh] grid grid-cols-1 justify-center items-center px-4">
-            <form
-              action=""
-              className="grid grid-cols-1 justify-center"
-              
-            >
-              <label
-                htmlFor=""
-                className="block text-sm font-medium text-gray-700 "
-              >
-                Full Name
-              </label>
+
+        <div className="w-[40%] bg-[#f1f1f1] px-4 py-6 rounded-lg">
+          <h1 className="text-2xl font-bold mb-4">Personal Information</h1>
+
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Full Name</label>
               <motion.input
-                whileTap={{ scale: 1.2 }}
-                {...register("name")}
+                whileTap={{ scale: 1.05 }}
                 type="text"
-                className="w-100 border rounded-xl px-2 py-1 "
+                value={formData.name}
+                onChange={(e) => handleChange("name", e.target.value)}
+                className="w-full border rounded-xl px-2 py-2"
                 placeholder="Enter your full name, e.g., Shivam Kumar"
               />
-              <label
-                htmlFor=""
-                className=" block text-sm font-medium text-gray-700 mt-2 mb-1"
-              >
-                What’s your role
-              </label>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">What’s your role</label>
               <motion.input
-                whileTap={{ scale: 1.2 }}
-                {...register("role")}
+                whileTap={{ scale: 1.05 }}
                 type="text"
-                className="w-100 border rounded-xl px-2 py-1"
+                value={formData.role}
+                onChange={(e) => handleChange("role", e.target.value)}
+                className="w-full border rounded-xl px-2 py-2"
                 placeholder="Enter your role, e.g., Full Stack Developer"
               />
-              <label
-                htmlFor=""
-                className=" block text-sm font-medium text-gray-700 mt-2 mb-1"
-              >
-                Address
-              </label>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Address</label>
               <motion.input
-                whileTap={{ scale: 1.2 }}
-                {...register("address")}
+                whileTap={{ scale: 1.05 }}
                 type="text"
-                className="w-100 border rounded-xl px-2 py-1"
-                placeholder="Enter your address , e.g., Ghaziabad , Uttar Pradesh"
+                value={formData.address}
+                onChange={(e) => handleChange("address", e.target.value)}
+                className="w-full border rounded-xl px-2 py-2"
+                placeholder="Enter your address, e.g., Ghaziabad, Uttar Pradesh"
               />
-              <label
-                htmlFor=""
-                className=" block text-sm font-medium text-gray-700 mt-2 mb-1"
-              >
-                Email
-              </label>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Email</label>
               <motion.input
-                whileTap={{ scale: 1.2 }}
-                {...register("email")}
+                whileTap={{ scale: 1.05 }}
                 type="email"
-                className="w-100 border rounded-xl px-2 py-1"
-                placeholder="Enter your email , e.g., email.example.com"
+                value={formData.email}
+                onChange={(e) => handleChange("email", e.target.value)}
+                className="w-full border rounded-xl px-2 py-2"
+                placeholder="Enter your email, e.g., email@example.com"
               />
-              <label
-                htmlFor=""
-                className=" block text-sm font-medium text-gray-700 mt-2 mb-1"
-              >
-                Portfolio Link
-              </label>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Portfolio Link</label>
               <motion.input
+                whileTap={{ scale: 1.05 }}
                 type="text"
-                {...register("Portfolio")}
-                whileTap={{ scale: 1.2 }}
-                className="w-100 border rounded-xl px-2 py-1"
+                value={formData.portfolio}
+                onChange={(e) => handleChange("portfolio", e.target.value)}
+                className="w-full border rounded-xl px-2 py-2"
                 placeholder="Enter your Portfolio Link"
               />
-              <label
-                htmlFor=""
-                className=" block text-sm font-medium text-gray-700 mt-2 mb-1"
-              >
-                Summary
-              </label>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Summary</label>
               <motion.textarea
-                whileTap={{ scale: 1.2 }}
-                {...register("summary")}
-                type="text"
-                className="w-100 border rounded-xl px-2 py-1 resize-none h-45"
-                placeholder="Enter your Summary , e.g.,Full Stack Developer with a focus on delivering scalable and efficient applications. Skilled in React, Node.js, and 
-database design. Passionate about problem-solving and building user-centric solutions. "
-              ></motion.textarea>
-            </form>
-          </div>
+                whileTap={{ scale: 1.05 }}
+                value={formData.summary}
+                onChange={(e) => handleChange("summary", e.target.value)}
+                className="w-full border rounded-xl px-2 py-2 resize-none h-40"
+                placeholder="Enter your summary, e.g., Full Stack Developer with a focus on..."
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300"
+            >
+              Save
+            </button>
+          </form>
         </div>
+
         <Livepreview />
       </div>
     </div>

@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import Livepreview from '../Components/Livepreview';
-
+import { userContextdata } from '../Context/userContext';
 const Skills = () => {
-  const [skills, setSkills] = useState([
-    
-  ]);
-
+  const {skills , setSkills} = useContext(userContextdata);
   const [newSkill, setNewSkill] = useState("");
+
 
   const handleInputChange = (e) => {
     setNewSkill(e.target.value);
@@ -57,7 +55,7 @@ const Skills = () => {
             <h3 className="text-lg font-semibold text-gray-700 border-b pb-2">
               Your Skills
             </h3>
-            {skills.map((skill, index) => (
+            {Array.isArray(skills) && skills.map((skill, index) => (
               <div
                 key={index}
                 className="flex justify-between items-center bg-gray-100 p-3 rounded-lg"

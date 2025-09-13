@@ -1,143 +1,158 @@
 import React from "react";
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 
-// Create styles for the PDF (updated design)
+// --- Styles for ATS-friendly and readable resume ---
 const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontSize: 11,
     fontFamily: "Helvetica",
     lineHeight: 1.5,
-    color: "#000",
+    color: "#333",
   },
-  headerSection: {
-    marginBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-    borderBottomStyle: "solid",
-    paddingBottom: 8,
+  header: {
+    marginBottom: 10,
   },
-  headerName: {
-    fontSize: 18,
+  name: {
+    fontSize: 20,
     fontWeight: "bold",
   },
-  headerTitle: {
+  title: {
     fontSize: 12,
-    marginTop: 2,
+    marginBottom: 5,
+    marginTop: 5,
   },
-  contactInfo: {
+  contact: {
     fontSize: 10,
+    marginBottom: 10,
     color: "#555",
-    marginTop: 1,
   },
   section: {
-    marginBottom: 12,
+    marginBottom: 10,
+  },
+  sectionHeader: {
+    fontSize: 12,
+    fontWeight: "bold",
+    marginBottom: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
+    paddingBottom: 2,
   },
   subHeader: {
-    fontSize: 13,
+    fontSize: 11,
     fontWeight: "bold",
-    color: "#1f4e79",
-    marginBottom: 6,
-    textTransform: "uppercase",
+    marginBottom: 3,
   },
   text: {
-    marginBottom: 2,
-  },
-  smallText: {
-    fontSize: 10,
-    color: "#555",
+    marginBottom: 4,
   },
   listItem: {
-    marginLeft: 12,
-    marginBottom: 2,
-  },
-  bold: {
-    fontWeight: "bold",
-  },
-  projectDate: {
-    fontSize: 10,
-    color: "#777",
+    marginLeft: 10,
     marginBottom: 2,
   },
 });
 
+// --- Resume Document Component ---
 const ResumeDocument = ({ resumeData }) => {
   return (
     <Document>
-      <Page size="A4" style={styles.page}>
+      <Page style={styles.page}>
+
         {/* Header Section */}
-        <View style={styles.headerSection}>
-          <Text style={styles.headerName}>{resumeData.name}</Text>
-          <Text style={styles.headerTitle}>{resumeData.title}</Text>
-          <Text style={styles.contactInfo}>{resumeData.address}</Text>
-          <Text style={styles.contactInfo}>{resumeData.email}</Text>
-          <Text style={styles.contactInfo}>{resumeData.website}</Text>
+        <View style={styles.header}>
+          <Text style={styles.name}>{resumeData.name || "Your Name"}</Text>
+          <Text style={styles.title}>{resumeData.title || "Professional Title"}</Text>
+          <Text style={styles.contact}>
+            {resumeData.address || "Address"} | {resumeData.email || "email@example.com"} | {resumeData.website || "website.com"}
+          </Text>
         </View>
 
-        {/* Technical Skills */}
+        {/* Summary Section */}
+        {resumeData.summary && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeader}>Summary</Text>
+            <Text style={styles.text}>{resumeData.summary}</Text>
+          </View>
+        )}
+
+        {/* Skills Section */}
         {resumeData.skills?.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.subHeader}>Technical Skills</Text>
-            <Text style={styles.text}>{resumeData.skills.join(" • ")}</Text>
-          </View>
-        )}
-
-        {/* Projects */}
-        {resumeData.projects?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.subHeader}>Projects</Text>
-            {resumeData.projects.map((proj, index) => (
-              <View key={index} style={styles.section}>
-                <Text style={styles.bold}>{proj?.name || "Unnamed Project"}</Text>
-                {proj?.date && <Text style={styles.projectDate}>{proj.date}</Text>}
-                <Text style={styles.listItem}>{proj?.description || "No description available"}</Text>
-              </View>
+            <Text style={styles.sectionHeader}>Professional Skills</Text>
+            {resumeData.skills.map((skill, idx) => (
+              <Text key={idx} style={styles.listItem}>• {skill}</Text>
             ))}
           </View>
         )}
 
-        {/* Education */}
-        {resumeData.education?.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.subHeader}>Education</Text>
-            {resumeData.education.map((edu, index) => (
-              <View key={index} style={styles.section}>
-                <Text style={styles.bold}>{edu.degree}</Text>
-                <Text style={styles.text}>{edu.institution}</Text>
-                <Text style={styles.smallText}>{edu.duration}</Text>
-                <Text style={styles.listItem}>{edu.details}</Text>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Work Experience */}
+        {/* Experience Section */}
         {resumeData.experience?.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.subHeader}>Work Experience</Text>
-            {resumeData.experience.map((exp, index) => (
-              <View key={index} style={styles.section}>
-                <Text style={styles.bold}>
-                  {exp.role} - {exp.company}
+            <Text style={styles.sectionHeader}>Professional Experience</Text>
+            {resumeData.experience.map((exp, idx) => (
+              <View key={idx} style={{ marginBottom: 5 }}>
+                <Text style={styles.subHeader}>
+                  {exp.role || "Role"}, {exp.company || "Company"} ({exp.duration || "Duration"})
                 </Text>
-                <Text style={styles.smallText}>{exp.duration}</Text>
-                {exp.details?.map((detail, i) => (
-                  <Text key={i} style={styles.listItem}>• {detail}</Text>
-                ))}
+                {exp.details?.length > 0 &&
+                  exp.details.map((detail, i) => (
+                    <Text key={i} style={styles.listItem}>• {detail}</Text>
+                  ))}
               </View>
             ))}
           </View>
         )}
 
-        {/* Awards & Achievements */}
-        {resumeData.awards?.length > 0 && (
+        {/* Projects Section */}
+        {resumeData.projects?.length > 0 && (
           <View style={styles.section}>
-            <Text style={styles.subHeader}>Awards & Achievements</Text>
-            {resumeData.awards.map((award, index) => (
-              <Text key={index} style={styles.listItem}>• {award}</Text>
+            <Text style={styles.sectionHeader}>Projects</Text>
+            {resumeData.projects.map((proj, idx) => (
+              <View key={idx} style={{ marginBottom: 4 }}>
+                <Text style={styles.subHeader}>{proj.name || "Project Name"}</Text>
+                <Text style={styles.listItem}>{proj.description || "Project Description"}</Text>
+              </View>
             ))}
           </View>
         )}
+
+        {/* Education Section */}
+        {resumeData.education?.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeader}>Education</Text>
+            {resumeData.education.map((edu, idx) => (
+              <View key={idx} style={{ marginBottom: 5 }}>
+                <Text style={styles.subHeader}>
+                  {edu.degree || "Degree"}, {edu.institution || "Institution"} ({edu.duration || "Duration"})
+                </Text>
+                <Text style={styles.listItem}>{edu.details || "Details about education"}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* Certifications Section */}
+        {resumeData.certifications?.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeader}>Certifications</Text>
+            {resumeData.certifications.map((cert, idx) => (
+              <Text key={idx} style={styles.listItem}>
+                {cert.name || "Certification"} - {cert.issuer || "Issuer"} ({cert.date || "Date"})
+              </Text>
+            ))}
+          </View>
+        )}
+
+        {/* Awards Section */}
+        {resumeData.awards?.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionHeader}>Awards & Achievements</Text>
+            {resumeData.awards.map((award, idx) => (
+              <Text key={idx} style={styles.listItem}>{award}</Text>
+            ))}
+          </View>
+        )}
+
       </Page>
     </Document>
   );

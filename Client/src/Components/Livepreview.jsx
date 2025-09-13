@@ -1,40 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useMemo } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import ResumeDocument from "./ResumeDocument.jsx";
 import { userContextdata } from "../Context/Usercontext.jsx";
 
 const Livepreview = () => {
-  const { project } = useContext(userContextdata);
+  const { project, skills, personalInfo ,Experience} = useContext(userContextdata);
 
-  const resumeData = {
-    name: "Shivam Kumar",
-    title: "Full Stack Developer",
-    address: "Ghaziabad, Uttar Pradesh",
-    email: "shivam@example.com",
-    website: "www.shivamportfolio.com",
+  const resumeData = useMemo(() => ({
+    name: personalInfo.name || "Shivam Kumar",
+    title: personalInfo.role || "Full Stack Developer",
+    address: personalInfo.address || "Ghaziabad, Uttar Pradesh",
+    email: personalInfo.email || "shivam@example.com",
+    website: personalInfo.portfolio || "www.shivamportfolio.com",
     summary:
+      personalInfo.summary ||
       "Full Stack Developer with a focus on delivering scalable and efficient applications. Skilled in React, Node.js, and database design. Passionate about problem-solving and building user-centric solutions.",
-    experience: [
-      {
-        role: "Web Development Intern",
-        company: "Codesoft",
-        duration: "Jun 2024 – Aug 2024",
-        details: [
-          "Built responsive web applications using React and Node.js.",
-          "Implemented REST APIs and optimized database queries.",
-          "Collaborated with designers to improve UI/UX experience.",
-        ],
-      },
-    ],
-    skills: [
-      "React.js",
-      "Node.js",
-      "MongoDB",
-      "SQL",
-      "Tailwind CSS",
-      "Express.js",
-      "Git/GitHub",
-    ],
+
+     experience:Experience.map((data)=>({
+      role:data.role,
+      company:data.name,
+      duration:data.duration,
+      details:[data.about]
+     })) ,
+    skills: Array.isArray(skills) && skills.length > 0
+      ? skills
+      : ["Add your skills here"],
     education: [
       {
         degree: "B.Tech in Computer Science and Engineering",
@@ -54,23 +44,28 @@ const Livepreview = () => {
       { name: "React Development", issuer: "Coursera", date: "March 2023" },
       { name: "Node.js Masterclass", issuer: "Udemy", date: "June 2022" },
     ],
- projects: Array.isArray(project) && project.length > 0
+    projects: Array.isArray(project) && project.length > 0
       ? project.map((p) => ({
           name: p?.name || "Project name",
           description: p?.description || "No description available",
         }))
-      :[{
-        name:"Project Name",
-        description:"About my project"
-      }] ,
-
-
+      : [
+          {
+            name: "Project Name",
+            description: "About my project",
+          },
+        ],
     awards: [
       "Hack2Skill Participation Certificate",
       "Overall Best Employee Award - Codesoft (2024)",
     ],
     languages: ["English (Professional Working Proficiency)", "Hindi (Native)"],
-  };
+  }), [project, skills, personalInfo]);
+
+  // Memoize the document so it doesn't re-render unnecessarily
+  const resumeDocument = useMemo(() => {
+    return <ResumeDocument resumeData={resumeData} />;
+  }, [resumeData]);
 
   return (
     <div className="w-[50%] h-full">
@@ -80,14 +75,14 @@ const Livepreview = () => {
         {/* PDF Preview Area */}
         <div className="h-[80%] border rounded-lg overflow-hidden">
           <PDFViewer width="100%" height="100%">
-            <ResumeDocument resumeData={resumeData} />
+            {resumeDocument}
           </PDFViewer>
         </div>
 
         {/* Download PDF Button */}
         <div className="mt-4">
           <PDFDownloadLink
-            document={<ResumeDocument resumeData={resumeData} />}
+            document={resumeDocument}
             fileName="resume.pdf"
           >
             {({ loading }) =>

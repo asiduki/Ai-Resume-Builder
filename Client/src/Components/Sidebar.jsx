@@ -14,14 +14,14 @@ const Sidebar = () => {
       image: <MdPerson className="h-7 w-7" />,
     },
     {
-      name: "Experience",
-      to: "/Experience",
-      image: <PiBagSimpleLight className="h-7 w-7" />,
-    },
-    {
       name: "Skills",
       to: "/Skills",
       image: <BsFillLightningChargeFill className="h-7 w-7" />,
+    },
+    {
+      name: "Experience",
+      to: "/Experience",
+      image: <PiBagSimpleLight className="h-7 w-7" />,
     },
     {
       name: "Education",
