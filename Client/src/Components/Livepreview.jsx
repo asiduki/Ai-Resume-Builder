@@ -4,7 +4,7 @@ import ResumeDocument from "./ResumeDocument.jsx";
 import { userContextdata } from "../Context/Usercontext.jsx";
 
 const Livepreview = () => {
-  const { project } = useContext(userContextdata); 
+  const { project } = useContext(userContextdata);
 
   const resumeData = {
     name: "Shivam Kumar",
@@ -22,20 +22,26 @@ const Livepreview = () => {
         details: [
           "Built responsive web applications using React and Node.js.",
           "Implemented REST APIs and optimized database queries.",
-          "Collaborated with designers to improve UI/UX experience."
+          "Collaborated with designers to improve UI/UX experience.",
         ],
       },
     ],
     skills: [
-      "React.js", "Node.js", "MongoDB", "SQL", 
-      "Tailwind CSS", "Express.js", "Git/GitHub"
+      "React.js",
+      "Node.js",
+      "MongoDB",
+      "SQL",
+      "Tailwind CSS",
+      "Express.js",
+      "Git/GitHub",
     ],
     education: [
       {
         degree: "B.Tech in Computer Science and Engineering",
         institution: "ABES Institute of Technology",
         duration: "2022 – 2026",
-        details: "Relevant coursework in Data Structures, Algorithms, and Web Development.",
+        details:
+          "Relevant coursework in Data Structures, Algorithms, and Web Development.",
       },
       {
         degree: "Senior Secondary (12th)",
@@ -48,13 +54,20 @@ const Livepreview = () => {
       { name: "React Development", issuer: "Coursera", date: "March 2023" },
       { name: "Node.js Masterclass", issuer: "Udemy", date: "June 2022" },
     ],
-    projects: project.map((p) => ({
-      name: p.name || "Untitled Project",
-      description: p.description || "No description.",
-    })),
+ projects: Array.isArray(project) && project.length > 0
+      ? project.map((p) => ({
+          name: p?.name || "Project name",
+          description: p?.description || "No description available",
+        }))
+      :[{
+        name:"Project Name",
+        description:"About my project"
+      }] ,
+
+
     awards: [
       "Hack2Skill Participation Certificate",
-      "Overall Best Employee Award - Codesoft (2024)"
+      "Overall Best Employee Award - Codesoft (2024)",
     ],
     languages: ["English (Professional Working Proficiency)", "Hindi (Native)"],
   };
