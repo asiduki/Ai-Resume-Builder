@@ -10,16 +10,8 @@ const Navbar = () => {
       <div>
         <ul className="flex gap-4 mr-10">
           <button className="bg-[#c0e0ff] px-2 rounded text-[#0b99ff] py-[3px] flex gap-2 cursor-pointer">
-            <FaRegFilePdf className="h-5 w-5" />
-            PDF
-          </button>
-          <button className="bg-[#c0e0ff] px-2 rounded text-[#0b99ff] py-[3px] flex gap-2 cursor-pointer">
             <FaRegStar className="h-5 w-5" />
             AI-Enhance
-          </button>
-          <button className="bg-[#c0e0ff] px-2 rounded text-[#0b99ff] py-[3px] flex gap-2 cursor-pointer">
-            <GrTemplate className="h-5 w-5" />
-            Template Switch
           </button>
         </ul>
       </div>

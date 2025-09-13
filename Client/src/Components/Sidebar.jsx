@@ -14,11 +14,6 @@ const Sidebar = () => {
       image: <MdPerson className="h-7 w-7" />,
     },
     {
-      name: "Education",
-      to: "/Education",
-      image: <RiGraduationCapLine className="h-7 w-7" />,
-    },
-    {
       name: "Experience",
       to: "/Experience",
       image: <PiBagSimpleLight className="h-7 w-7" />,
@@ -28,6 +23,12 @@ const Sidebar = () => {
       to: "/Skills",
       image: <BsFillLightningChargeFill className="h-7 w-7" />,
     },
+    {
+      name: "Education",
+      to: "/Education",
+      image: <RiGraduationCapLine className="h-7 w-7" />,
+    },
+  
     {
       name: "Projects",
       to: "/Projects",

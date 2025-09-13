@@ -8,10 +8,12 @@ import Education from '../Pages/Education'
 import Experience from '../Pages/Experience'
 import Skills from '../Pages/Skills'
 import Projects from '../Pages/Projects'
+import UserContext from '../Context/Usercontext'
     
 const Routing = () => { 
   return (      
     <>
+    
      <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />           
