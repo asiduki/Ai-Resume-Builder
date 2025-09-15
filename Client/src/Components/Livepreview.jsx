@@ -2,9 +2,10 @@ import React, { useContext, useMemo } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import ResumeDocument from "./ResumeDocument.jsx";
 import { userContextdata } from "../Context/Usercontext.jsx";
+import { degrees } from "framer-motion";
 
 const Livepreview = () => {
-  const { project, skills, personalInfo,Experience} = useContext(userContextdata);
+  const { project, skills, personalInfo,Experience , education} = useContext(userContextdata);
 
   const resumeData = useMemo(() => ({
     name: personalInfo.name || "My Name",
@@ -26,21 +27,17 @@ const Livepreview = () => {
     skills: Array.isArray(skills)
       ? skills
       : [],
-    education: [
-      {
-        degree: "B.Tech in Computer Science and Engineering",
-        institution: "ABES Institute of Technology",
-        duration: "2022 – 2026",
-        details:
-          "Relevant coursework in Data Structures, Algorithms, and Web Development.",
-      },
-      {
-        degree: "Senior Secondary (12th)",
-        institution: "CBSE Board",
-        duration: "2021",
-        details: "PCM with Computer Science specialization.",
-      },
-    ],
+    education: Array.isArray(education)
+  ? education.map((data) => ({
+      schoolName: data.schoolName || "",
+      degree: data.degree || "",
+      fieldOfStudy: data.fieldOfStudy || "",
+      startDate: data.startDate || "",
+      endDate: data.endDate || "",
+      gpa: data.gpa || "",
+      highlights: data.highlights || "",
+    }))
+  : [],
     certifications: [
       { name: "React Development", issuer: "Coursera", date: "March 2023" },
       { name: "Node.js Masterclass", issuer: "Udemy", date: "June 2022" },
@@ -58,7 +55,7 @@ const Livepreview = () => {
       "Overall Best Employee Award - Codesoft (2024)",
     ],
     languages: ["English (Professional Working Proficiency)", "Hindi (Native)"],
-  }), [project, skills, personalInfo , Experience]);
+  }), [project, skills, personalInfo , Experience , education]);
 
   // Memoize the document so it doesn't re-render unnecessarily
   const resumeDocument = useMemo(() => {

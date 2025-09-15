@@ -74,7 +74,7 @@ const UserContext = (props) => {
     setExperience,
     education,
      setEducation ,
-  }), [project, personalInfo, skills, Experience]);
+  }), [project, personalInfo, skills, Experience , education]);
 
   return (
     // Pass the memoized value
