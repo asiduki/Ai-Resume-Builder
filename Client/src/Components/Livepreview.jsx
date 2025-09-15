@@ -4,27 +4,28 @@ import ResumeDocument from "./ResumeDocument.jsx";
 import { userContextdata } from "../Context/Usercontext.jsx";
 
 const Livepreview = () => {
-  const { project, skills, personalInfo ,Experience} = useContext(userContextdata);
+  const { project, skills, personalInfo,Experience} = useContext(userContextdata);
 
   const resumeData = useMemo(() => ({
-    name: personalInfo.name || "Shivam Kumar",
+    name: personalInfo.name || "My Name",
     title: personalInfo.role || "Full Stack Developer",
     address: personalInfo.address || "Ghaziabad, Uttar Pradesh",
+    number: personalInfo.number || "1234567***",
     email: personalInfo.email || "shivam@example.com",
     website: personalInfo.portfolio || "www.shivamportfolio.com",
     summary:
       personalInfo.summary ||
       "Full Stack Developer with a focus on delivering scalable and efficient applications. Skilled in React, Node.js, and database design. Passionate about problem-solving and building user-centric solutions.",
-
-     experience:Experience.map((data)=>({
+    
+     experience:Array.isArray(Experience) ? Experience.map((data)=>({
       role:data.role,
       company:data.name,
       duration:data.duration,
       details:[data.about]
-     })) ,
-    skills: Array.isArray(skills) && skills.length > 0
+     })) : [],
+    skills: Array.isArray(skills)
       ? skills
-      : ["Add your skills here"],
+      : [],
     education: [
       {
         degree: "B.Tech in Computer Science and Engineering",
@@ -48,19 +49,16 @@ const Livepreview = () => {
       ? project.map((p) => ({
           name: p?.name || "Project name",
           description: p?.description || "No description available",
+          link: p?.link || "dasdasd", //repo link,
+          deploymentLink:p?.deploymentLink || "link",
         }))
-      : [
-          {
-            name: "Project Name",
-            description: "About my project",
-          },
-        ],
+      : [],
     awards: [
       "Hack2Skill Participation Certificate",
       "Overall Best Employee Award - Codesoft (2024)",
     ],
     languages: ["English (Professional Working Proficiency)", "Hindi (Native)"],
-  }), [project, skills, personalInfo]);
+  }), [project, skills, personalInfo , Experience]);
 
   // Memoize the document so it doesn't re-render unnecessarily
   const resumeDocument = useMemo(() => {

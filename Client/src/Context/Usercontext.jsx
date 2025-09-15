@@ -1,5 +1,4 @@
-import { createContext, useEffect, useState } from "react";
-import { data } from "react-router-dom";
+import { createContext, useEffect, useState, useMemo } from "react"; 
 
 export const userContextdata = createContext();
 
@@ -34,28 +33,52 @@ const UserContext = (props) => {
     }
   });
 
-  const [Experience , setExperience] = useState(()=>{
-    try{
-      const stored = localStorage.getItem("Experience") ;
-      return stored ? JSON.parse(stored) :[];
-    }catch(error){
+  const [Experience, setExperience] = useState(() => {
+    try {
+      const stored = localStorage.getItem("Experience");
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
       console.error("error");
-      return[] ;
+      return [];
     }
   });
 
-  // Sync state to localStorage
+  const [education, setEducation] = useState(() => {
+    try {
+      const stored = localStorage.getItem("education");
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error("error");
+      return [];
+    }
+  });
+
   useEffect(() => {
     localStorage.setItem("projects", JSON.stringify(project));
     localStorage.setItem("personalInfo", JSON.stringify(personalInfo));
     localStorage.setItem("skills", JSON.stringify(skills));
     localStorage.setItem("Experience", JSON.stringify(Experience));
-  }, [project, personalInfo, skills , Experience]);
-console.log(Experience);
+    localStorage.setItem("education", JSON.stringify(education));
+  }, [project, personalInfo, skills, Experience , education]);
+
+  
+
+  const contextValue = useMemo(() => ({
+    project,
+    setProject,
+    personalInfo,
+    setPersonalInfo,
+    skills,
+    setSkills,
+    Experience,
+    setExperience,
+    education,
+     setEducation ,
+  }), [project, personalInfo, skills, Experience]);
+
   return (
-    <userContextdata.Provider
-      value={{ project, setProject, personalInfo, setPersonalInfo, skills, setSkills , Experience , setExperience}}
-    >
+    // Pass the memoized value
+    <userContextdata.Provider value={contextValue}>
       {props.children}
     </userContextdata.Provider>
   );

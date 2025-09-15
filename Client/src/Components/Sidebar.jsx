@@ -5,6 +5,7 @@ import { RiGraduationCapLine } from "react-icons/ri";
 import { PiBagSimpleLight } from "react-icons/pi";
 import { BsFillLightningChargeFill } from "react-icons/bs";
 import { VscFileSubmodule } from "react-icons/vsc";
+import { PiCertificateLight } from "react-icons/pi";
 
 const Sidebar = () => {
   const [Navbar, setNavbar] = useState([
@@ -34,6 +35,11 @@ const Sidebar = () => {
       to: "/Projects",
       image: <VscFileSubmodule className="h-7 w-7" />,
     },
+    {
+      name:"Certification",
+      to:"/Certification",
+      image:<PiCertificateLight className="h-7 w-7" />,
+    }
   ]);
 
   return (

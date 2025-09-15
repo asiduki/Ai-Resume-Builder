@@ -9,6 +9,7 @@ import Experience from '../Pages/Experience'
 import Skills from '../Pages/Skills'
 import Projects from '../Pages/Projects'
 import UserContext from '../Context/Usercontext'
+import Certification from '../Pages/Certification'
     
 const Routing = () => { 
   return (      
@@ -23,6 +24,7 @@ const Routing = () => {
         <Route path="/Experience" element={<Experience/>}/>
         <Route path="/Skills" element={<Skills/>}/>
         <Route path="/Projects" element={<Projects/>}/>
+        <Route path="/Certification" element={<Certification/>}/>
      </Routes>
     </>
   )

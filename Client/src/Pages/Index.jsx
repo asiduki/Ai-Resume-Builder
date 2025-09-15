@@ -7,6 +7,7 @@ import { userContextdata } from "../Context/Usercontext";
 
 const Index = () => {
   const { personalInfo, setPersonalInfo } = useContext(userContextdata);
+  const [ error , seterror] = useState(false) ;
 
   // Local state to manage form inputs temporarily before updating context
   const [formData, setFormData] = useState({
@@ -19,6 +20,7 @@ const Index = () => {
   });
 
   const handleChange = (field, value) => {
+    
     setFormData({
       ...formData,
       [field]: value,
@@ -75,6 +77,21 @@ const Index = () => {
                 className="w-full border rounded-xl px-2 py-2"
                 placeholder="Enter your address, e.g., Ghaziabad, Uttar Pradesh"
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <motion.input
+                whileTap={{ scale: 1.05 }}
+                type="tel"
+                maxLength="10"
+                minLength={`10`}
+                value={formData.number}
+                onChange={(e) => handleChange("number", e.target.value)}
+                className={`w-full border rounded-xl px-2 py-2`}
+                placeholder="Enter your Phone Number, e.g., *******965"
+              />
+              <h1 className={`text-red-500 ${error ? "" : "hidden"}`}>Please Input 10 digits</h1>
             </div>
 
             <div>

@@ -1,20 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navbar from "../Components/Navbar";
 import Sidebar from "../Components/Sidebar";
 import Livepreview from "../Components/Livepreview";
 import { useForm } from "react-hook-form";
 import { userContextdata } from "../Context/Usercontext"; // corrected import
-
 const Projects = () => {
   const { project, setProject } = useContext(userContextdata);
   const { register, handleSubmit, reset } = useForm();
+  const [showPreview, setShowPreview] = useState(true);
+  
 
   const onSubmit = (data) => {
     setProject((prevProjects) => [...prevProjects, data]);
-    reset(); // Clear the form after submission
+    reset(); 
   };
       
   const handleDelete = (index) => {
+    setShowPreview(false);
     setProject((prevProjects) => prevProjects.filter((_, i) => i !== index));
   };
 
@@ -34,6 +36,22 @@ const Projects = () => {
       )
     );
   };
+
+  const handleLinkChange = (index , value) =>{
+setProject((prevProjects) =>
+      prevProjects.map((proj, i) =>
+        i === index ? { ...proj, link: value } : proj
+      )
+    );
+  }
+
+  useEffect(()=>{
+    if(!showPreview){
+      setTimeout(()=>{
+        setShowPreview(true);
+      },0);
+    }
+  },[showPreview]);
 
   return (
     <div>
@@ -61,6 +79,12 @@ const Projects = () => {
                 type="text"
                 {...register("name", { required: true })}
                 placeholder="Project Name"
+                className="border border-black rounded-lg h-10 m-2 px-1 py-2"
+              />
+              <input
+                type="url"
+                {...register("link")}
+                placeholder="Project Link e.g., https://github.com/your-username/your-repo"
                 className="border border-black rounded-lg h-10 m-2 px-1 py-2"
               />
               <textarea
@@ -91,6 +115,12 @@ const Projects = () => {
                     onChange={(e) => handleNameChange(index, e.target.value)}
                     className="font-bold uppercase text-lg mb-2 w-full border-b border-gray-300 focus:outline-none"
                   />
+                  <input
+                    type="url"
+                    value={data.link}
+                    onChange={(e) => handleLinkChange(index, e.target.value)}
+                    className="text-lg mb-2 w-full border-b border-gray-300 focus:outline-none"
+                  />
                   <textarea
                     value={data.description}
                     onChange={(e) => handleDescriptionChange(index, e.target.value)}
@@ -106,7 +136,7 @@ const Projects = () => {
             )}
           </div>
         </div>
-        <Livepreview />
+        {showPreview ? <Livepreview/> : <div><p>Updating preview</p></div> }
       </div>
     </div>
   );
