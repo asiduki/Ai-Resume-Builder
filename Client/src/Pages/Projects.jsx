@@ -8,18 +8,16 @@ const Projects = () => {
   const { project, setProject } = useContext(userContextdata);
   const { register, handleSubmit, reset } = useForm();
   const [showPreview, setShowPreview] = useState(true);
-  
 
   const onSubmit = (data) => {
     setProject((prevProjects) => [...prevProjects, data]);
-    reset(); 
+    reset();
   };
-      
+
   const handleDelete = (index) => {
     setShowPreview(false);
     setProject((prevProjects) => prevProjects.filter((_, i) => i !== index));
   };
-
 
   const handleNameChange = (index, value) => {
     setProject((prevProjects) =>
@@ -37,21 +35,21 @@ const Projects = () => {
     );
   };
 
-  const handleLinkChange = (index , value) =>{
-setProject((prevProjects) =>
+  const handleLinkChange = (index, value) => {
+    setProject((prevProjects) =>
       prevProjects.map((proj, i) =>
         i === index ? { ...proj, link: value } : proj
       )
     );
-  }
+  };
 
-  useEffect(()=>{
-    if(!showPreview){
-      setTimeout(()=>{
+  useEffect(() => {
+    if (!showPreview) {
+      setTimeout(() => {
         setShowPreview(true);
-      },0);
+      }, 0);
     }
-  },[showPreview]);
+  }, [showPreview]);
 
   return (
     <div>
@@ -87,11 +85,14 @@ setProject((prevProjects) =>
                 placeholder="Project Link e.g., https://github.com/your-username/your-repo"
                 className="border border-black rounded-lg h-10 m-2 px-1 py-2"
               />
-              <textarea
-                {...register("description")}
-                placeholder="About your project..."
-                className="resize-none h-60 border border-black rounded-lg m-2 px-1 py-2"
-              />
+              <div className="relative border border-black rounded-lg m-2 ">
+                <button className="absolute right-1 top-2 cursor-pointer hover:bg-[#0b99ff] text-[#0b99ff] bg-[#c0e0ff] hover:text-[#c0e0ff] rounded-lg px-2 py-1">Generate</button>
+                <textarea
+                  {...register("description")}
+                  placeholder="About your project..."
+                  className="resize-none h-60 w-full outline-none px-2 py-1"
+                />
+              </div>
             </form>
           </div>
 
@@ -99,7 +100,10 @@ setProject((prevProjects) =>
           <div className="grid grid-cols-1 p-2">
             {project.length > 0 ? (
               project.map((data, index) => (
-                <div key={index} className="p-4 border rounded mb-4 bg-white relative">
+                <div
+                  key={index}
+                  className="p-4 border rounded mb-4 bg-white relative"
+                >
                   <button
                     onClick={() => handleDelete(index)}
                     className="absolute top-2 right-2 text-red-500 hover:text-red-700 cursor-pointer"
@@ -123,7 +127,9 @@ setProject((prevProjects) =>
                   />
                   <textarea
                     value={data.description}
-                    onChange={(e) => handleDescriptionChange(index, e.target.value)}
+                    onChange={(e) =>
+                      handleDescriptionChange(index, e.target.value)
+                    }
                     className="text-gray-700 w-full resize-none border rounded p-2 focus:outline-none"
                     rows="4"
                   />
@@ -136,7 +142,13 @@ setProject((prevProjects) =>
             )}
           </div>
         </div>
-        {showPreview ? <Livepreview/> : <div><p>Updating preview</p></div> }
+        {showPreview ? (
+          <Livepreview />
+        ) : (
+          <div>
+            <p>Updating preview</p>
+          </div>
+        )}
       </div>
     </div>
   );

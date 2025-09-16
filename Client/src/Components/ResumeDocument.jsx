@@ -8,153 +8,108 @@ import {
   Link,
 } from "@react-pdf/renderer";
 
-// --- Register Fonts if needed (optional) ---
-// Font.register({
-//   family: 'Inter',
-//   fonts: [
-//     { src: '/path/to/Inter-Regular.ttf' },
-//     { src: '/path/to/Inter-Bold.ttf', fontWeight: 'bold' },
-//   ],
-// });
-
-// --- Styles for the Two-Column Layout ---
 const styles = StyleSheet.create({
   page: {
-    backgroundColor: "#fff",
+    padding: 40,
+    fontSize: 10,
     fontFamily: "Helvetica",
-    fontSize: 9,
-    padding: 30,
+    color: "#333333",
+    backgroundColor: "#ffffff",
+    lineHeight: 1.5,
   },
-  container: {
-    flex: 1,
-    flexDirection: "row",
-  },
-  leftColumn: {
-    width: "70%",
-    paddingRight: 15,
-  },
-  rightColumn: {
-    width: "30%",
-    paddingLeft: 15,
-  },
-  // Header
   header: {
+    textAlign: "center",
     marginBottom: 20,
   },
   name: {
-    fontSize: 24,
+    fontSize: 26,
     fontFamily: "Helvetica-Bold",
-    color: "#222",
+    color: "#222222",
   },
   title: {
-    fontSize: 12,
-    color: "#444",
-    marginTop: 4,
+    fontSize: 14,
+    color: "#666666",
+    marginBottom: 10,
+    marginTop:10,
   },
   contactInfo: {
-    marginTop: 10,
-    fontSize: 8,
-    color: '#666',
-  },
-  contactItem: {
-    marginBottom: 3,
+    fontSize: 9,
+    color: "#555555",
   },
   link: {
-    color: "#666",
+    color: "#333333",
     textDecoration: "none",
   },
-  // Sections
   section: {
     marginBottom: 15,
   },
   sectionTitle: {
-    fontSize: 11,
+    fontSize: 13,
     fontFamily: "Helvetica-Bold",
-    textTransform: "uppercase",
-    color: "#222",
-    marginBottom: 2,
-    marginTop:30,
-  },
-  sectionLine: {
-    borderBottomWidth: 2,
-    borderBottomColor: "#222",
+    color: "#1a1a1a",
     marginBottom: 8,
-    width: '100%',
+    textTransform: "uppercase",
+    paddingBottom: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eeeeee",
   },
-  // Right Column Specifics
-  initialsCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#007BFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 20,
-    alignSelf: 'flex-end',
-  },
-  initialsText: {
-    color: 'white',
-    fontSize: 32,
-    fontFamily: 'Helvetica-Bold',
+  summaryText: {
+    fontSize: 10,
+    textAlign: "justify",
   },
   skillsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 8,
+    flexDirection: "row",
+    flexWrap: "wrap",
   },
-  skillTag: {
-    backgroundColor: '#F3F4F6',
-    color: '#111827',
-    padding: '4px 8px',
+  skill: {
+    backgroundColor: "#f5f5f5",
+    color: "#333333",
+    padding: '4 8',
     borderRadius: 4,
-    fontSize: 8,
     marginRight: 6,
     marginBottom: 6,
-  },
-  // General Entry Styles
-  entryContainer: {
-    marginBottom: 10,
-  },
-  entryTitle: {
-    fontSize: 10,
-    fontFamily: 'Helvetica-Bold',
-  },
-  entrySubTitle: {
     fontSize: 9,
-    color: '#555',
   },
-  entryDate: {
-    fontSize: 8,
-    color: '#888',
-    marginTop: 2,
+  itemContainer: {
+    marginBottom: 12,
+  },
+  itemHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: 'center',
+    marginBottom: 4,
+  },
+  itemTitle: {
+    fontSize: 11,
+    fontFamily: "Helvetica-Bold",
+  },
+  itemDuration: {
+    fontSize: 9,
+    color: "#777777",
   },
   bulletPoint: {
-    flexDirection: 'row',
-    marginTop: 4,
-    paddingRight: 10,
+    flexDirection: "row",
+    marginLeft: 12,
+    marginBottom: 4,
   },
   bullet: {
-    marginRight: 5,
+    width: 8,
+    fontSize: 10,
   },
   bulletText: {
-    fontSize: 9,
     flex: 1,
+    fontSize: 10,
   },
-  projectLink: {
-    fontSize: 8,
-    color: '#007BFF',
-    textDecoration: 'none',
-    marginTop: 2,
+  projectLinks: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  linkSeparator: {
+    marginHorizontal: 4,
+    color: '#777777',
+    fontSize: 9,
   },
 });
-
-// Helper function to get initials from a name
-const getInitials = (name) => {
-  if (!name) return "";
-  const parts = name.split(" ");
-  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
-  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
-};
 
 const ResumeDocument = ({ resumeData }) => {
   const {
@@ -174,98 +129,125 @@ const ResumeDocument = ({ resumeData }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.container}>
-          {/* Left Column */}
-          <View style={styles.leftColumn}>
-            <View style={styles.header}>
-              <Text style={styles.name}>{name || "Your Name"}</Text>
-              <Text style={styles.title}>{title || "Professional Title"}</Text>
-              <Text style={styles.contactInfo}>
-                <Text style={styles.contactItem}>{number || "+91 12345 67890"}{"\n"}</Text>
-                <Text style={styles.contactItem}><Link src={`mailto:${email}`} style={styles.link}>{email || "your.email@example.com"}</Link>{"\n"}</Text>
-                <Text style={styles.contactItem}><Link src={website} style={styles.link}>{website || "yourportfolio.com"}</Link>{"\n"}</Text>
-                <Text style={styles.contactItem}>{address || "City, Country"}</Text>
-              </Text>
-            </View>
+        {/* --- Header Section (No Changes) --- */}
+        <View style={styles.header}>
+          <Text style={styles.name}>{name || "Your Name"}</Text>
+          <Text style={styles.title}>{title || "Professional Title"}</Text>
+          <Text style={styles.contactInfo}>
+            {number || "+91 12345 67890"} |{" "}
+            <Link src={`mailto:${email}`} style={styles.link}>{email || "your.email@example.com"}</Link> |{" "}
+            <Link src={website} style={styles.link}>{website || "yourportfolio.com"}</Link> |{" "}
+            {address || "Ghaziabad, UP"}
+          </Text>
+        </View>
 
-            {summary && (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Summary</Text>
-                <View style={styles.sectionLine} />
-                <Text style={styles.bulletText}>{summary}</Text>
-              </View>
-            )}
-
-            {education.length > 0 && (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Education</Text>
-                <View style={styles.sectionLine} />
-                {education.map((edu, idx) => (
-                  <View key={idx} style={styles.entryContainer}>
-                    <Text style={styles.entryTitle}>{edu.schoolName}</Text>
-                    <Text style={styles.entrySubTitle}>{`${edu.degree}${edu.fieldOfStudy ? `, ${edu.fieldOfStudy}` : ''}`}</Text>
-                    <Text style={styles.entryDate}>{`${edu.startDate} - ${edu.endDate}`}</Text>
-                  </View>
-                ))}
-              </View>
-            )}
-
-            {experience.length > 0 && (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Experience</Text>
-                <View style={styles.sectionLine} />
-                {experience.map((exp, idx) => (
-                  <View key={idx} style={styles.entryContainer}>
-                    <Text style={styles.entryTitle}>{exp.role} at {exp.company}</Text>
-                    <Text style={styles.entryDate}>{exp.duration}</Text>
-                    {exp.details?.map((detail, i) => (
-                       <View key={i} style={styles.bulletPoint}>
-                          <Text style={styles.bullet}>•</Text>
-                          <Text style={styles.bulletText}>{detail}</Text>
-                       </View>
-                    ))}
-                  </View>
-                ))}
-              </View>
-            )}
-
-            {projects.length > 0 && (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Projects</Text>
-                <View style={styles.sectionLine} />
-                {projects.map((proj, idx) => (
-                  <View key={idx} style={styles.entryContainer}>
-                    <Text style={styles.entryTitle}>{proj.name}</Text>
-                    <View style={styles.bulletPoint}>
-                      <Text style={styles.bullet}>•</Text>
-                      <Text style={styles.bulletText}>{proj.description}</Text>
-                    </View>
-                    <Link src={proj.link} style={styles.projectLink}>Repository</Link>
-                  </View>
-                ))}
-              </View>
-            )}
+        {/* --- Other Sections (No Changes) --- */}
+        {summary && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Summary</Text>
+            <Text style={styles.summaryText}>{summary}</Text>
           </View>
+        )}
 
-          {/* Right Column */}
-          <View style={styles.rightColumn}>
-            <View style={styles.initialsCircle}>
-              <Text style={styles.initialsText}>{getInitials(name)}</Text>
+        {skills.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            <View style={styles.skillsContainer}>
+              {skills.map((skill, idx) => (
+                <Text key={idx} style={styles.skill}>{skill}</Text>
+              ))}
             </View>
+          </View>
+        )}
 
-            {skills.length > 0 && (
-              <View style={styles.section}>
-                <Text style={styles.sectionTitle}>Skills</Text>
-                <View style={styles.sectionLine} />
-                <View style={styles.skillsContainer}>
-                  {skills.map((skill, idx) => (
-                    <Text key={idx} style={styles.skillTag}>{skill}</Text>
-                  ))}
+        {experience.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Professional Experience</Text>
+            {experience.map((exp, idx) => (
+              <View key={idx} style={styles.itemContainer}>
+                <View style={styles.itemHeader}>
+                  <Text style={styles.itemTitle}>{`${exp.role || "Job Role"} at ${exp.company || "Company"}`}</Text>
+                  <Text style={styles.itemDuration}>{exp.duration || "Date Range"}</Text>
+                </View>
+                {exp.details?.map((detail, i) => (
+                  <View key={i} style={styles.bulletPoint}>
+                    <Text style={styles.bullet}>•</Text>
+                    <Text style={styles.bulletText}>{detail}</Text>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
+
+        {/* --- UPDATED PROJECTS SECTION (Simple Label Change) --- */}
+        {projects.length > 0 && (
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Projects</Text>
+            {projects.map((proj, idx) => (
+              <View key={idx} style={styles.itemContainer}>
+                <View style={styles.itemHeader}>
+                  <Text style={styles.itemTitle}>{proj.name || "Project Name"}</Text>
+                  <View style={styles.projectLinks}>
+                    {proj.link && (
+                      <Link src={proj.link} style={styles.link}>
+                        Repository
+                      </Link>
+                    )}
+                    {proj.link && proj.deploymentLink && (
+                      <Text style={styles.linkSeparator}>|</Text>
+                    )}
+                    {proj.deploymentLink && (
+                      <Link src={proj.deploymentLink} style={styles.link}>
+                        Live URL
+                      </Link>
+                    )}
+                  </View>
+                </View>
+                <View style={styles.bulletPoint}>
+                  <Text style={styles.bullet}>•</Text>
+                  <Text style={styles.bulletText}>{proj.description || "No description available"}</Text>
                 </View>
               </View>
-            )}
+            ))}
           </View>
+        )}
+
+        {education.length > 0 && (
+  <View style={styles.section}>
+    <Text style={styles.sectionTitle}>Education</Text>
+    {education.map((edu, idx) => {
+      // Handles single or multi-line highlights from a textarea
+      const highlights = edu.highlights 
+        ? edu.highlights.split('\n').filter(point => point.trim() !== '') 
+        : [];
+      
+      const duration = (edu.startDate && edu.endDate) 
+        ? `${edu.startDate} – ${edu.endDate}` 
+        : (edu.duration || "");
+
+      return (
+        <View key={idx} style={styles.itemContainer}>
+          <View style={styles.itemHeader}>
+            <Text style={styles.itemTitle}>{edu.schoolName || "Institution Name"}</Text>
+            <Text style={styles.itemDuration}>{duration}</Text>
+          </View>
+          <Text style={styles.itemSubTitle}>
+            {`${edu.degree || "Degree"}${edu.fieldOfStudy ? `, ${edu.fieldOfStudy}` : ''}`}
+          </Text>
+          
+          {/* Renders highlights as a bulleted list */}
+          {highlights.map((point, i) => (
+            <View key={i} style={styles.bulletPoint}>
+              <Text style={styles.bullet}>•</Text>
+              <Text style={styles.bulletText}>{point}</Text>
+            </View>
+          ))}
         </View>
+      );
+    })}
+  </View>
+)}
       </Page>
     </Document>
   );
