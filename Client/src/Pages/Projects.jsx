@@ -90,7 +90,7 @@ const Projects = () => {
                 <textarea
                   {...register("description")}
                   placeholder="About your project..."
-                  className="resize-none h-60 w-full outline-none px-2 py-1"
+                  className="resize-none h-60 w-full outline-none pl-2 py-1 pr-22"
                 />
               </div>
             </form>
@@ -141,6 +141,12 @@ const Projects = () => {
               </p>
             )}
           </div>
+        </div>
+        <div>
+          
+        </div>
+        <div>
+          
         </div>
         {showPreview ? (
           <Livepreview />
