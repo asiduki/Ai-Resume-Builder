@@ -3,6 +3,10 @@ import { createContext, useEffect, useState, useMemo } from "react";
 export const userContextdata = createContext();
 
 const UserContext = (props) => {
+  // const apiUrl = import.meta.env.VITE_API_URL;
+  const [userdetails , setuserdetails] = useState({});
+  
+console.log(userdetails?.email);
   const [project, setProject] = useState(() => {
     try {
       const stored = localStorage.getItem("projects");
@@ -74,7 +78,9 @@ const UserContext = (props) => {
     setExperience,
     education,
      setEducation ,
-  }), [project, personalInfo, skills, Experience , education]);
+     userdetails , 
+     setuserdetails
+  }), [project, personalInfo, skills, Experience , education , userdetails]);
 
   return (
     // Pass the memoized value

@@ -1,6 +1,7 @@
 import express from 'express'; 
 import userSchema from "../Models/usermodel.js";
 import bcrypt from 'bcrypt'
+import jwt from "jsonwebtoken"
 export const Signup =async(req,res)=>{
     try{
          const { name, email, password } = req.body;
@@ -17,7 +18,14 @@ export const Signup =async(req,res)=>{
       password:hash,
       
     });
-    res.status(201).json({ message: "User created successfully", user: createuser });
+    let token  = jwt.sign({email} , process.env.JWT_SECRET)
+    res.cookie("token" ,token );
+    res.status(201).json({ message: "User created successfully", user:  {
+          _id: userDetails._id,
+          name: userDetails.name,
+          email: userDetails.email,
+          resumedata: userDetails.resumedata || [],
+        } });
         })
       })
     }
@@ -40,11 +48,23 @@ export const Signup =async(req,res)=>{
     if(!result){
       return res.status(401).json({ error: "Invalid password" });
     }
+    let token  = jwt.sign({email} , process.env.JWT_SECRET)
+    res.cookie("token" ,token );
     return res.status(200).json({ message: "Login successful", user: userDetails });
    })
 
   } catch (err) {
     console.log("Server error:", err);
     return res.status(500).json({ error: "Server error" });
+  }
+}
+
+export const logout = async(req , res)=>{
+  try{
+    res.cookie("token" , "");
+    res.status(200).json({message:"Logout"});
+  }
+  catch(err){
+    res.status(500).json({message:"saver have an error"});
   }
 }

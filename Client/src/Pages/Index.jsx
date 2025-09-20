@@ -4,10 +4,12 @@ import { motion } from "motion/react";
 import Sidebar from "../Components/Sidebar";
 import Livepreview from "../Components/Livepreview";
 import { userContextdata } from "../Context/Usercontext";
+import axios from "axios";
 
 const Index = () => {
   const { personalInfo, setPersonalInfo } = useContext(userContextdata);
   const [ error , seterror] = useState(false) ;
+  // const apiUrl = import.meta.env.VITE_API_URL;
 
   // Local state to manage form inputs temporarily before updating context
   const [formData, setFormData] = useState({

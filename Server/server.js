@@ -7,11 +7,14 @@ const db = require("./config/mongoose-connection");
 const cors = require("cors");
 const bcrypt = require("bcrypt")
 const Personalinfo = require("./Models/Data")
-const ResumeData = require("./Models/ResumeData")
+const ResumeData = require("./Routing/ResumeData");
 const aiRoutes = require('./Routing/ai.routes');
 require('dotenv').config();
 
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials:true
+}));
 
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -21,7 +24,8 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.use("/api/signup",SignupRouter);
 app.use("/api/login", LoginRouter);
-app.use("/api/ai" , aiRoutes)
+app.use("/api/ai" , aiRoutes);
+app.use("/api" , ResumeData);
 
 app.get("/",(req,res)=>{
     res.send("server is running");

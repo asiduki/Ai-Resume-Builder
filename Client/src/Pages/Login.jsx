@@ -1,29 +1,42 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
+import { userContextdata } from "../Context/Usercontext";
 
 const Login = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { userdetails, setuserdetails } = useContext(userContextdata);
   const { register, handleSubmit } = useForm();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [messageoflogin, setMessageoflogin] = useState(true);
 
   const onSubmit = async (data) => {
+    setMessageoflogin(true);
     try {
-      const res = await axios.post("http://localhost:5000/api/login", {
-        email: data.email,
-        password: data.password,
-      });
+      const res = await axios.post(
+        `${apiUrl}/api/login`,
+        {
+          email: data.email,
+          password: data.password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
 
       if (res.status === 200) {
-          setLoading(true);
+        setuserdetails(res.data.user);
+        setLoading(true);
         setTimeout(() => {
           navigate("/Index");
         }, 2000);
       }
     } catch (error) {
       console.log("Login Error:", error.response?.data?.error || error.message);
+      setMessageoflogin(false);
     }
   };
 
@@ -73,6 +86,9 @@ const Login = () => {
                 Login
               </button>
             </form>
+            {!messageoflogin && (
+              <p className="text-red-500">Wrong Username or Password</p>
+            )}
             <span className="text-sm text-center block mt-4">
               Don't have an account?{" "}
               <Link to="/Signup" className="text-blue-500 font-bold text-sm">

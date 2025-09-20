@@ -6,14 +6,18 @@ const Signup = () => {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [message, setMessage] = useState("");
+  const apiUrl = import.meta.env.VITE_API_URL;
   const onSubmit = async(data)=>{
     
     try{
-      const res = await axios.post("http://localhost:5000/api/signup", {
+      const res = await axios.post(`${apiUrl}/api/signup`, {
       name: data.name,
       email: data.email,
       password: data.password,
-    });
+    }
+  ,{
+        withCredentials: true
+      });
       setMessage(res.data.message);
       setTimeout(() => {
       navigate("/Login");
