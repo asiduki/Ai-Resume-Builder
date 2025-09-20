@@ -7,6 +7,7 @@ const db = require("./config/mongoose-connection");
 const cors = require("cors");
 const bcrypt = require("bcrypt")
 const Personalinfo = require("./Models/Data")
+const ResumeData = require("./Models/ResumeData")
 const aiRoutes = require('./Routing/ai.routes');
 require('dotenv').config();
 
