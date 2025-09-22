@@ -22,7 +22,7 @@ const Livepreview = () => {
         const res = await axios.post(
           `${apiUrl}/api/resume`,
           {
-            email: "jadon@gmail.com",
+            email: userdetails.email,
             Personalinfo: personalInfo,
             experience: Experience,
             education,
