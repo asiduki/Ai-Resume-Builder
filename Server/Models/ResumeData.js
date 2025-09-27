@@ -7,6 +7,7 @@ const ResumeSchema = mongoose.Schema(
       ref: "user",
     },
     email: { type: String, required: true },
+    name:{type: String, required: true },
     Personalinfo: [
       {
         name: String,

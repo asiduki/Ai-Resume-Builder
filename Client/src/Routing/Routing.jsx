@@ -10,6 +10,7 @@ import Skills from '../Pages/Skills'
 import Projects from '../Pages/Projects'
 import UserContext from '../Context/Usercontext'
 import Certification from '../Pages/Certification'
+import ProtectedRoute from '../Components/ProtectedRoute'
     
 const Routing = () => { 
   return (      
@@ -19,12 +20,14 @@ const Routing = () => {
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />           
         <Route path="/Signup" element={<Signup />} />
+        <Route element={<ProtectedRoute />}>
         <Route path="/Index" element={<Index/>}/>
         <Route path="/Education" element={<Education/>}/>
         <Route path="/Experience" element={<Experience/>}/>
         <Route path="/Skills" element={<Skills/>}/>
         <Route path="/Projects" element={<Projects/>}/>
         <Route path="/Certification" element={<Certification/>}/>
+        </Route>
      </Routes>
     </>
   )

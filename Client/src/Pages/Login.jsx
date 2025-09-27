@@ -28,7 +28,7 @@ const Login = () => {
       );
 
       if (res.status === 200) {
-        setuserdetails(res.data.user);
+        setuserdetails(true);
         setLoading(true);
         setTimeout(() => {
           navigate("/Index");

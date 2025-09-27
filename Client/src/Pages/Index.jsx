@@ -41,7 +41,7 @@ const Index = () => {
       <div className="flex gap-5 w-full mt-9 justify-between h-full">
         <Sidebar />
 
-        <div className="w-[40%] bg-[#f1f1f1] px-4 py-6 rounded-lg">
+        <div className="w-[40%] shadow-sm border-black px-4 py-6 rounded-lg">
           <h1 className="text-2xl font-bold mb-4">Personal Information</h1>
 
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">

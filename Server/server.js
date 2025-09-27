@@ -10,6 +10,7 @@ const Personalinfo = require("./Models/Data")
 const ResumeData = require("./Routing/ResumeData");
 const aiRoutes = require('./Routing/ai.routes');
 require('dotenv').config();
+const cookieParser = require('cookie-parser');
 
 app.use(cors({
     origin: "http://localhost:5173",
@@ -19,6 +20,7 @@ app.use(cors({
 app.use(express.json());
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended:true}));
+app.use(cookieParser());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -26,6 +28,7 @@ app.use("/api/signup",SignupRouter);
 app.use("/api/login", LoginRouter);
 app.use("/api/ai" , aiRoutes);
 app.use("/api" , ResumeData);
+
 
 app.get("/",(req,res)=>{
     res.send("server is running");

@@ -12,31 +12,31 @@ const Livepreview = () => {
     personalInfo,
     Experience,
     education,
-    userdetails,
+    userdetails
   } = useContext(userContextdata);
 
   const apiUrl = import.meta.env.VITE_API_URL;
-  useEffect(() => {
-    setTimeout(async () => {
-      try {
-        const res = await axios.post(
-          `${apiUrl}/api/resume`,
-          {
-            email: userdetails.email,
-            Personalinfo: personalInfo,
-            experience: Experience,
-            education,
-            projects: project,
-            skills,
-          },
-          { withCredentials: true }
-        );
-        console.log("Resume uploaded:", res.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }, 4000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(async () => {
+  //     try {
+  //       const res = await axios.post(
+  //         `${apiUrl}/api/resume`,
+  //         {
+  //           email: userdetails.email,
+  //           Personalinfo: personalInfo,
+  //           experience: Experience,
+  //           education,
+  //           projects: project,
+  //           skills,
+  //         },
+  //         { withCredentials: true }
+  //       );
+  //       console.log("Resume uploaded:", res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }, 4000);
+  // }, []);
 
   const resumeData = useMemo(
     () => ({

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link ,useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 const Signup = () => {
@@ -7,27 +7,29 @@ const Signup = () => {
   const { register, handleSubmit } = useForm();
   const [message, setMessage] = useState("");
   const apiUrl = import.meta.env.VITE_API_URL;
-  const onSubmit = async(data)=>{
-    
-    try{
-      const res = await axios.post(`${apiUrl}/api/signup`, {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-    }
-  ,{
-        withCredentials: true
-      });
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post(
+        `${apiUrl}/api/signup`,
+        {
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
       setMessage(res.data.message);
       setTimeout(() => {
-      navigate("/Login");
-    }, 1000);
-    }catch (error) {
+        setuserdetails(res.data.user);
+        navigate("/Index");
+      }, 1000);
+    } catch (error) {
       setMessage("Error: " + error.response?.data?.error || error.message);
     }
-  }
-  
- 
+  };
+
   return (
     <>
       <div className="w-screen h-screen flex">
@@ -53,10 +55,7 @@ const Signup = () => {
             <h1 className="text-2xl font-bold mt-3">
               Signup to Resume Builder
             </h1>
-            <form
-              className="mt-4"
-              onSubmit={handleSubmit((onSubmit))}
-            >
+            <form className="mt-4" onSubmit={handleSubmit(onSubmit)}>
               <input
                 type="email"
                 {...register("email")}

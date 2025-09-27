@@ -18,13 +18,13 @@ export const Signup =async(req,res)=>{
       password:hash,
       
     });
-    let token  = jwt.sign({email} , process.env.JWT_SECRET)
+    let token  = jwt.sign({userId:createuser._id} , process.env.JWT_SECRET)
     res.cookie("token" ,token );
     res.status(201).json({ message: "User created successfully", user:  {
-          _id: userDetails._id,
-          name: userDetails.name,
-          email: userDetails.email,
-          resumedata: userDetails.resumedata || [],
+          _id: createuser._id,
+          name: createuser.name,
+          email: createuser.email,
+          resumedata: createuser.resumedata || [],
         } });
         })
       })
@@ -48,9 +48,9 @@ export const Signup =async(req,res)=>{
     if(!result){
       return res.status(401).json({ error: "Invalid password" });
     }
-    let token  = jwt.sign({email} , process.env.JWT_SECRET)
-    res.cookie("token" ,token );
-    return res.status(200).json({ message: "Login successful", user: userDetails });
+    let token  = jwt.sign({userId:userDetails._id} , process.env.JWT_SECRET)
+    res.cookie("token" ,token,{ httpOnly: true, secure: true, sameSite: "strict" });
+    return res.status(200).json({ message: "Login successful", user:{_id:userDetails._id,name:userDetails.name,email:userDetails.email} });
    })
 
   } catch (err) {
@@ -61,7 +61,7 @@ export const Signup =async(req,res)=>{
 
 export const logout = async(req , res)=>{
   try{
-    res.cookie("token" , "");
+    res.cookie("token" , "" ,{expires: new Date(0)});
     res.status(200).json({message:"Logout"});
   }
   catch(err){

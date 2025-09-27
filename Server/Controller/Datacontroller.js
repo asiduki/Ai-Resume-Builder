@@ -4,7 +4,7 @@ import ResumeSchema from "../Models/ResumeData.js";
 import UserSchema from "../Models/usermodel.js";
 import jwt from "jsonwebtoken";
 
-export const resumedataouput = async (req, res) => {
+export const resumedatainput = async (req, res) => {
   try {
     const {
       projects,
@@ -13,12 +13,14 @@ export const resumedataouput = async (req, res) => {
       experience,
       education,
       email,
+      name,
       certifications,
     } = req.body;
     const user = await UserSchema.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
     const CreateData = await ResumeSchema.create({
       users: user._id,
+      name,
       email,
       Personalinfo: [Personalinfo],
       experience,
@@ -40,9 +42,26 @@ export const resumedataouput = async (req, res) => {
 
 export const ResumeData = async (req, res) => {
   try {
-    const { username } = req.body;
-    const resume = await ResumeSchema.findOne({ username });
+    const userId = req.user._id;
+    const resumeinfo = await ResumeSchema.findOne({ users: userId });
+
+    if (resumeinfo) {
+      return res.status(200).json({
+        success: true,
+        data: resumeinfo,
+      });
+    } else {
+      console.log("No resume found for user ID:", userId);
+      return res.status(404).json({
+        success: false,
+        message: "Resume not found for this user.",
+      });
+    }
   } catch (err) {
-    console.log(err);
+    console.log("Error in ResumeData controller:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
   }
 };
