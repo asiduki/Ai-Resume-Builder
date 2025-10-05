@@ -9,9 +9,7 @@ import axios from "axios";
 const Index = () => {
   const { personalInfo, setPersonalInfo } = useContext(userContextdata);
   const [ error , seterror] = useState(false) ;
-  // const apiUrl = import.meta.env.VITE_API_URL;
-
-  // Local state to manage form inputs temporarily before updating context
+  
   const [formData, setFormData] = useState({
     name: personalInfo.name || "",
     role: personalInfo.role || "",

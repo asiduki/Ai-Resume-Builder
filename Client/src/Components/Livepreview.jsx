@@ -14,33 +14,40 @@ const Livepreview = () => {
     education,
     userdetails
   } = useContext(userContextdata);
-
+  
   const apiUrl = import.meta.env.VITE_API_URL;
-  // useEffect(() => {
-  //   setTimeout(async () => {
-  //     try {
-  //       const res = await axios.post(
-  //         `${apiUrl}/api/resume`,
-  //         {
-  //           email: userdetails.email,
-  //           Personalinfo: personalInfo,
-  //           experience: Experience,
-  //           education,
-  //           projects: project,
-  //           skills,
-  //         },
-  //         { withCredentials: true }
-  //       );
-  //       console.log("Resume uploaded:", res.data);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }, 4000);
-  // }, []);
+//   useEffect(() => {
+//   if (!userdetails) {
+//     console.log("User email not ready yet");
+//     return;
+//   }
+
+//   const sendResume = async () => {
+//     try {
+//       const res = await axios.post(
+//         `${apiUrl}/api/resume`,
+//         {
+//           email: userdetails,
+//           Personalinfo: personalInfo,
+//           experience: Experience,
+//           education,
+//           projects: project,
+//           skills:skills,
+//         },
+//         { withCredentials: true }
+//       );
+//       console.log("Resume uploaded:", res.data);
+//     } catch (err) {
+//       console.error("Error uploading resume:", err.response || err);
+//     }
+//   };
+
+//   sendResume();
+// }, []);
 
   const resumeData = useMemo(
     () => ({
-      name: personalInfo.name || "My Name",
+      name: personalInfo.name || "",
       title: personalInfo.role || "Full Stack Developer",
       address: personalInfo.address || "Ghaziabad, Uttar Pradesh",
       number: personalInfo.number || "1234567***",
@@ -64,10 +71,9 @@ const Livepreview = () => {
             schoolName: data.schoolName || "",
             degree: data.degree || "",
             fieldOfStudy: data.fieldOfStudy || "",
-            startDate: data.startDate || "",
-            endDate: data.endDate || "",
+            startDate:data.startDate ? data.startDate.split('T')[0] : "",
+            endDate: data.endDate ? data.endDate.split('T')[0] : "",
             gpa: data.gpa || "",
-            highlights: data.highlights || "",
           }))
         : [],
       certifications: [
@@ -83,19 +89,10 @@ const Livepreview = () => {
               deploymentLink: p?.deploymentLink || "link",
             }))
           : [],
-      awards: [
-        "Hack2Skill Participation Certificate",
-        "Overall Best Employee Award - Codesoft (2024)",
-      ],
-      languages: [
-        "English (Professional Working Proficiency)",
-        "Hindi (Native)",
-      ],
     }),
     [project, skills, personalInfo, Experience, education]
   );
 
-  // Memoize the document so it doesn't re-render unnecessarily
   const resumeDocument = useMemo(() => {
     return <ResumeDocument resumeData={resumeData} />;
   }, [resumeData]);
@@ -105,14 +102,12 @@ const Livepreview = () => {
       <div className="w-full h-screen bg-[#f1f1f1] rounded-lg py-6 px-4">
         <h1 className="text-2xl font-bold mb-4">Live Resume Preview</h1>
 
-        {/* PDF Preview Area */}
         <div className="h-[80%] border rounded-lg overflow-hidden">
           <PDFViewer width="100%" height="100%">
             {resumeDocument}
           </PDFViewer>
         </div>
 
-        {/* Download PDF Button */}
         <div className="mt-4">
           <PDFDownloadLink document={resumeDocument} fileName="resume.pdf">
             {({ loading }) =>

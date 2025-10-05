@@ -7,29 +7,31 @@ const ResumeSchema = mongoose.Schema(
       ref: "user",
     },
     email: { type: String, required: true },
-    name:{type: String, required: true },
+  
     Personalinfo: [
-      {
-        name: String,
-        title: String,
-        address: String,
-        number: String,
-        email: String,
-        website: String,
-        summary: String,
-      },
+     { 
+      name: String,
+      role:String,
+      address: String,
+      number: String,
+      email: String,
+      portfolio: String,
+      summary: String,
+    }
     ],
+
     experience: [
       {
         role: { type: String, require: true },
         company: String,
         duration: String,
-        details: [String],
+        details: [String], 
       },
     ],
-    skills: {
-      skills: String,
-    },
+
+
+    skills: [String],
+
     education: [
       {
         schoolName: String,
@@ -38,18 +40,22 @@ const ResumeSchema = mongoose.Schema(
         startDate: Date,
         endDate: Date,
         gpa: Number,
-        Highlight: [String],
+        highlights: [String],
       },
     ],
+
     certifications: [
       {
         name: String,
+        issuer: String, 
+        date: String,  
       },
     ],
+
     projects: [
       {
         name: String,
-        description: [String],
+        description: String,
         link: String,
         deploymentLink: String,
       },
@@ -58,4 +64,4 @@ const ResumeSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("resumedata", ResumeSchema , "resumedata");
+module.exports = mongoose.model("resumedata", ResumeSchema, "resumedata");

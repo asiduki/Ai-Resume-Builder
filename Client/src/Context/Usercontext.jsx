@@ -1,6 +1,5 @@
 import axios from "axios";
 import { createContext, useEffect, useState, useMemo } from "react";
-// import ResumeData from "../../../Server/Models/ResumeData";
 
 export const userContextdata = createContext();
 
@@ -10,15 +9,26 @@ const UserContext = (props) => {
     const storedUser = localStorage.getItem("chat-user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-  const [project, setProject] = useState({});
+  
+
+  useEffect(() => {
+    if (userdetails) {
+      localStorage.setItem("chat-user", JSON.stringify(userdetails));
+    } else {
+      localStorage.removeItem("chat-user");
+    }
+  }, [userdetails]);
+  const [project, setProject] = useState([]);
   const [personalInfo, setPersonalInfo] = useState({});
   const [skills, setSkills] = useState([]);
   const [Experience, setExperience] = useState({});
   const [education, setEducation] = useState({});
   const [resumeData, setResumeData] = useState({});
-   
   useEffect(() => {
-    setTimeout(() => {
+     if (!userdetails) {
+    console.log("User email not ready yet");
+    return;
+  }
       const fetchInitialData = async () => {
         try {
           const response = await axios.get(`${apiUrl}/api/resume`, {
@@ -27,8 +37,7 @@ const UserContext = (props) => {
           const data = response.data.data;
           console.log(data);
           setResumeData(data);
-          setuserdetails({ name: data.name });
-          setPersonalInfo(data.Personalinfo[0] || {});
+          setPersonalInfo(data.Personalinfo[0] || []);
           setExperience(data.experience || []);
           setEducation(data.education || []);
           setProject(data.projects || []);
@@ -44,7 +53,7 @@ const UserContext = (props) => {
         }
       };
       fetchInitialData();
-    }, 2000);
+    
   }, [apiUrl]);
 
   const contextValue = useMemo(

@@ -1,6 +1,5 @@
 import express from "express";
 import ResumeSchema from "../Models/ResumeData.js";
-// import token from "../Middleware/token.js"
 import UserSchema from "../Models/usermodel.js";
 import jwt from "jsonwebtoken";
 
@@ -18,6 +17,7 @@ export const resumedatainput = async (req, res) => {
     } = req.body;
     const user = await UserSchema.findOne({ email });
     if (!user) return res.status(404).json({ message: "User not found" });
+    // await ResumeSchema.deleteMany({ users: user._id });
     const CreateData = await ResumeSchema.create({
       users: user._id,
       name,
@@ -26,7 +26,7 @@ export const resumedatainput = async (req, res) => {
       experience,
       projects: projects,
       education,
-      skills,
+      skills:skills,
       certifications: certifications || [],
     });
     

@@ -28,7 +28,7 @@ const Login = () => {
       );
 
       if (res.status === 200) {
-        setuserdetails(true);
+        setuserdetails(data.email);
         setLoading(true);
         setTimeout(() => {
           navigate("/Index");
@@ -55,6 +55,7 @@ const Login = () => {
           }}
         />
       ) : (
+        
         <div className="w-[50%] bg-white text-black flex items-center justify-center">
           <div
             className="h-[55%] bg-gray-100 rounded-2xl text-black px-4 py-4 text-center"

@@ -200,7 +200,7 @@ const Education = () => {
                       {edu.schoolName} — {edu.degree}
                     </p>
                     <p className="text-sm text-gray-600">
-                      {edu.startDate} – {edu.endDate}
+                      {edu.startDate ? edu.startDate.split('T')[0]: ' '} – {edu.endDate ? edu.endDate.split('T')[0]:''}
                     </p>
                   </div>
                   <div className="flex gap-4">
